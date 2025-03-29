@@ -3,7 +3,7 @@ name: Deploy to Heroku
 on:
   push:
     branches:
-      - main  # Substitua por outra branch, se necessário
+      - main
 
 jobs:
   deploy:
@@ -16,13 +16,13 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '14'  # Substitua pela versão que você está usando
+        node-version: '16'  # Atualize para a versão 16 ou superior
 
     - name: Install dependencies
       run: npm install
 
     - name: Build the project
-      run: npm run build  # Caso seu projeto precise de build
+      run: npm run build
 
     - name: Install Heroku CLI
       run: |

@@ -30,7 +30,7 @@
     "**/*.tsx",
     "src/**/*",
     "pages/**/*",
-    "types/**/*",  
+    "types/**/*",
     "components/**/*"
   ],
   "exclude": [

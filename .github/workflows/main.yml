@@ -1,40 +1,24 @@
-name: Deploy to Heroku
+name: Push Container to Heroku
 
-on:
+on: 
   push:
     branches:
-      - main  # Substitua pela sua branch, se necessário
+      - master
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3  # Usando a versão mais recente do checkout
-
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '18'  # Ou outra versão compatível com o Next.js
-
-    - name: Install dependencies
-      run: npm install
-
-    - name: Build the project
-      run: npm run build
-
-    - name: Install Heroku CLI
-      run: |
-        curl https://cli-assets.heroku.com/install.sh | sh  # Instala o Heroku CLI
-
-    - name: Log in to Heroku with email and API key
-      run: |
-        echo "${{ secrets.HEROKU_API_KEY }}" | heroku auth:token  # Autentica com o token de API
-        echo "${{ secrets.HEROKU_EMAIL }}" | heroku auth:login  # Força login com o e-mail da conta Heroku
-
-    - name: Deploy to Heroku
-      run: |
-        git remote add heroku https://git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git  # Adiciona o repositório remoto do Heroku
-        git push heroku main  # Faz o push para o Heroku (ajuste a branch, se necessário)
-
+    - uses: actions/checkout@v1
+    - name: Login to Heroku Container registry
+      env: 
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      run: heroku container:login 
+    - name: Build and push
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      run: heroku container:push -a ${{ secrets.HEROKU_APP_NAME }} web 
+    - name: Release
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      run: heroku container:release -a ${{ secrets.HEROKU_APP_NAME }} web 

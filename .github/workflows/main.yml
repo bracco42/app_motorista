@@ -28,14 +28,10 @@ jobs:
       run: |
         curl https://cli-assets.heroku.com/install.sh | sh  # Instala o Heroku CLI
 
-    - name: Log in to Heroku
-      env: 
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      run: |
-        echo "${{ secrets.HEROKU_API_KEY }}" | heroku auth:token  # Autentica com o token de API
-        echo "${{ secrets.HEROKU_EMAIL }}" | heroku auth:login  # Força login com o e-mail da conta Heroku
-
     - name: Deploy to Heroku
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
       run: |
         git remote add heroku https://git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git  # Adiciona o repositório remoto do Heroku
-        git push heroku main  # Faz o push para o Heroku (ajuste a branch, se necessário)
+        git push heroku main  # Faz o push para o Heroku

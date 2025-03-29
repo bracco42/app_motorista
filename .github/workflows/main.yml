@@ -3,7 +3,7 @@ name: Deploy to Heroku
 on:
   push:
     branches:
-      - main
+      - main  # Substitua pela sua branch, se necessário
 
 jobs:
   deploy:
@@ -16,7 +16,7 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '18'  # Atualize para a versão 16 ou superior
+        node-version: '18'  # Ou outra versão compatível com o Next.js
 
     - name: Install dependencies
       run: npm install
@@ -31,6 +31,7 @@ jobs:
     - name: Log in to Heroku
       run: |
         echo "${{ secrets.HEROKU_API_KEY }}" | heroku auth:token  # Usa o token de API do Heroku para login
+        echo "${{ secrets.HEROKU_EMAIL }}" | heroku auth:login  # Usando o e-mail para login
 
     - name: Deploy to Heroku
       run: |

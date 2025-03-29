@@ -31,7 +31,10 @@ jobs:
     - name: Log in to Heroku
       run: |
         echo "${{ secrets.HEROKU_API_KEY }}" | heroku auth:token  # Usa o token de API do Heroku para login
-        echo "${{ secrets.HEROKU_EMAIL }}" | heroku auth:login  # Usando o e-mail para login
+
+    - name: Set Heroku email and login
+      run: |
+        echo "${{ secrets.HEROKU_EMAIL }}" | heroku auth:login  # Usa o e-mail da conta do Heroku para login com o token
 
     - name: Deploy to Heroku
       run: |

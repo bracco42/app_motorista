@@ -3,7 +3,7 @@ name: Deploy to Heroku
 on:
   push:
     branches:
-      - main
+      - main  # Substitua pela sua branch, se necessário
 
 jobs:
   deploy:
@@ -16,7 +16,7 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '18'  # Atualize para a versão 16 ou superior
+        node-version: '18'  # Ou outra versão compatível com o Next.js
 
     - name: Install dependencies
       run: npm install
@@ -28,18 +28,12 @@ jobs:
       run: |
         curl https://cli-assets.heroku.com/install.sh | sh  # Instala o Heroku CLI
 
-    - name: Login to Heroku Container registry
+    - name: Log in to Heroku
       env: 
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      run: heroku container:login 
-    - name: Build and push
-      env:
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      run: heroku container:push -a ${{ secrets.HEROKU_APP_NAME }} web 
-    - name: Release
-      env:
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      run: heroku container:release -a ${{ secrets.HEROKU_APP_NAME }} web 
+      run: |
+        echo "${{ secrets.HEROKU_API_KEY }}" | heroku auth:token  # Autentica com o token de API
+        echo "${{ secrets.HEROKU_EMAIL }}" | heroku auth:login  # Força login com o e-mail da conta Heroku
 
     - name: Deploy to Heroku
       run: |

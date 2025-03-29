@@ -10,13 +10,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3  # Versão atualizada do checkout
+        uses: actions/checkout@v3
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3  # Versão atualizada do setup-node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14'
 
       - name: Cache node modules
-        uses: actions/cache@v3  # Versão mais recente do cache
+        uses: actions/cache@v3
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
@@ -27,11 +29,9 @@ jobs:
         run: npm install
 
       - name: Log in to Heroku
-        uses: akshnz/heroku-login-action@v1
+        uses: heroku/actions/setup@v1  # Alternativa para login no Heroku
         with:
-          heroku_email: ${{ secrets.HEROKU_EMAIL }}
-          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          api_key: ${{ secrets.HEROKU_API_KEY }}
 
       - name: Deploy to Heroku
-        run: git remote add heroku https://git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git
-      - run: git push heroku main
+        run: git remote add her

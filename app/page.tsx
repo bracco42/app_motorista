@@ -31,8 +31,8 @@ export default function CalculoLucro() {
     const lucroCurto = valorCorrida - custoCombustivelCorrida;
     setLucroCurtoPrazo(lucroCurto);
 
-    const custoManutencaoCorrida = ((valorManutencao + valorSeguro) || (0.03 * valorVeiculo)) * kmsRodados / (kmsPorDia * 252);
-    const depreciaçãoVeiculo = (valorVeiculo * 0.03 * kmsRodados) / (kmsPorDia * 252);
+    const custoManutencaoCorrida = ((valorManutencao + valorSeguro) || (0.033333 * valorVeiculo)) * kmsRodados / (kmsPorDia * 252);
+    const depreciaçãoVeiculo = (valorVeiculo * 0.033333 * kmsRodados) / (kmsPorDia * 252);
     const lucroLongo = valorCorrida - custoCombustivelCorrida - custoManutencaoCorrida - depreciaçãoVeiculo;
     setLucroLongoPrazo(lucroLongo);
   };
